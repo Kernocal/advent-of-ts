@@ -8,3 +8,6 @@ type Demand2 = 900_000
 
 // Day 3 - Type function parameter
 const survivalRatio1 = (input: number) => { /* blah */ }
+
+// Day 4 - Union type
+const survivalRatio2 = (input: number | string) => { /* blah */ }
