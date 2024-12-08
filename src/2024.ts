@@ -17,3 +17,7 @@ const createRoute1 = <T>(author: string, route: T) => (route)
 
 // Day 6 - Day 5 but union
 const createRoute2 = <T extends string | number>(author: string, route: T) => (route)
+
+// Day 7 - infer array to get literal type -> 1) spread array into tuple or 2) from ts ^5.0 use const in generics
+const createRoute3 = <T extends string[]>(author: any, route: [...T]) => ({ route })
+const createRoute4 = <const T extends string[]>(author: any, route: T) => ({ route })
