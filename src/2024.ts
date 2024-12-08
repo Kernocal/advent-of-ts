@@ -30,3 +30,12 @@ declare namespace NodeJS {
         STRAWBERRIES: 'chocolate'
     }
 }
+
+// random thoughts/playground
+type Omit<T, U> = T extends U ? never : T
+
+interface Person { name: string, age: number }
+
+type TransformedPerson = {
+    [K in keyof Person as `new_${K}` | `updated_${K}` | `changed_${K}`]: Person[K];
+}
