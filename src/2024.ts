@@ -14,3 +14,6 @@ const survivalRatio2 = (input: number | string) => { /* blah */ }
 
 // Day 5 - Type function output as input literal
 const createRoute1 = <T>(author: string, route: T) => (route)
+
+// Day 6 - Day 5 but union
+const createRoute2 = <T extends string | number>(author: string, route: T) => (route)
