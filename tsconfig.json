@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2023",
+        "lib": ["dom", "dom.iterable", "es2023"],
+        "moduleDetection": "force",
+        "module": "preserve",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "skipLibCheck": true
+    },
+    "include": ["src/*.ts"],
+    "exclude": ["node_modules"]
+}
