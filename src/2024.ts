@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function */
+/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace */
 
 // Day 1 - Primitives
 type Demand1 = number
@@ -21,3 +21,12 @@ const createRoute2 = <T extends string | number>(author: string, route: T) => (r
 // Day 7 - infer array to get literal type -> 1) spread array into tuple or 2) from ts ^5.0 use const in generics
 const createRoute3 = <T extends string[]>(author: any, route: [...T]) => ({ route })
 const createRoute4 = <const T extends string[]>(author: any, route: T) => ({ route })
+
+// Day 8 - extend global
+declare namespace NodeJS {
+    interface ProcessEnv {
+        MOOD_LIGHTS: 'true'
+        BATH_TEMPERATURE: '327.59'
+        STRAWBERRIES: 'chocolate'
+    }
+}
