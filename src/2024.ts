@@ -1,4 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace */
+import { } from './santas-special-list'
 
 // Day 1 - Primitives
 type Demand1 = number
@@ -31,7 +32,15 @@ declare namespace NodeJS {
     }
 }
 
-// Day 9 - ???
+// Day 9 - type module
+declare module './santas-special-list' {
+    type Status = 'naughty' | 'nice'
+    interface Child {
+        name: string
+        status: Status
+    }
+    type List = Child[]
+}
 
 // random thoughts/playground
 type Omit<T, U> = T extends U ? never : T
