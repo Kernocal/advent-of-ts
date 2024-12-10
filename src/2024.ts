@@ -46,7 +46,7 @@ declare module './santas-special-list' {
 enum Gift {
     // unique
     Coal = 0,
-    Train = 1 << 0,
+    Train = 1,
     Bicycle = Train << 1,
     SuccessorToTheNintendoSwitch = Bicycle << 1,
     TikTokPremium = SuccessorToTheNintendoSwitch << 1,
