@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace */
+/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member */
 import { } from './santas-special-list'
 
 // Day 1 - Primitives
@@ -42,9 +42,30 @@ declare module './santas-special-list' {
     type List = Child[]
 }
 
-// random thoughts/playground
-type Omit<T, U> = T extends U ? never : T
+// Day 10 - Enums bitwise (good to read https://typescript-eslint.io/rules/prefer-literal-enum-member/)
+enum Gift {
+    // unique
+    Coal = 0,
+    Train = 1 << 0,
+    Bicycle = Train << 1,
+    SuccessorToTheNintendoSwitch = Bicycle << 1,
+    TikTokPremium = SuccessorToTheNintendoSwitch << 1,
+    Vape = TikTokPremium << 1,
 
+    // combo
+    Traditional = (Train | Bicycle),
+    OnTheMove = (Coal | Bicycle | TikTokPremium | Vape),
+    OnTheCouch = ((Coal | TikTokPremium | Vape) & ~Bicycle | SuccessorToTheNintendoSwitch),
+};
+
+// helpers
+type Omit<T, U> = T extends U ? never : T
+type Push<T extends any[], U> = [...T, U]
+type Pick<T, U extends keyof T> = {
+    [K in U]: T[K];
+}
+
+// playground
 interface Person { name: string, age: number }
 
 type TransformedPerson = {
