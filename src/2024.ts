@@ -45,6 +45,7 @@ declare module './santas-special-list' {
 // Day 10 - Enums bitwise (good to read https://typescript-eslint.io/rules/prefer-literal-enum-member/)
 enum Gift {
     // unique
+
     Coal = 0,
     Train = 1,
     Bicycle = Train << 1,
@@ -57,6 +58,9 @@ enum Gift {
     OnTheMove = (Coal | Bicycle | TikTokPremium | Vape),
     OnTheCouch = ((Coal | TikTokPremium | Vape) & ~Bicycle | SuccessorToTheNintendoSwitch),
 };
+
+// Day 11 - type class instances
+type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}`
 
 // helpers
 type Omit<T, U> = T extends U ? never : T
