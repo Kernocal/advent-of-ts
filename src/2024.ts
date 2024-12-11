@@ -56,7 +56,8 @@ enum Gift {
     // combo
     Traditional = (Train | Bicycle),
     OnTheMove = (Coal | Bicycle | TikTokPremium | Vape),
-    OnTheCouch = ((Coal | TikTokPremium | Vape) & ~Bicycle | SuccessorToTheNintendoSwitch),
+    // OnTheCouch = ((Coal | TikTokPremium | Vape) & ~Bicycle | SuccessorToTheNintendoSwitch)
+    OnTheCouch = (Coal | SuccessorToTheNintendoSwitch | TikTokPremium | Vape),
 };
 
 // Day 11 - type class instances
