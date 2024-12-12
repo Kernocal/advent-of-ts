@@ -63,6 +63,19 @@ enum Gift {
 // Day 11 - type class instances
 type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}`
 
+// Day 12 - Starting to feel like 2023 :o
+type NaughtyOrNice<T> = T extends 'Yanni' | 'Petra' | 'Aagya' ? 'nice' : 'naughty'
+type ToNumber<T> = T extends `${infer N extends number}` ? N : never
+type FormatNames<T extends string[][]> = {
+    [K in keyof T]: T[K] extends [infer Name, any, infer Count] ?
+            {
+                name: Name
+                count: ToNumber<Count>
+                rating: NaughtyOrNice<Name>
+            } : never;
+}
+
+// ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
 type Omit<T, U> = T extends U ? never : T
 type Push<T extends any[], U> = [...T, U]
