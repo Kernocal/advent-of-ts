@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member */
+/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions */
 import { } from './santas-special-list'
 
 // Day 1 - Primitives
@@ -62,6 +62,7 @@ enum Gift {
 
 // Day 11 - type class instances
 type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}`
+const zz = [].push()
 
 // Day 12 - Starting to feel like 2023 :o
 type NaughtyOrNice<T> = T extends 'Yanni' | 'Petra' | 'Aagya' ? 'nice' : 'naughty'
@@ -73,6 +74,11 @@ type FormatNames<T extends string[][]> = {
                 count: ToNumber<Count>
                 rating: NaughtyOrNice<Name>
             } : never;
+}
+
+// Day 13 - Type Contravariant or Invariant? works
+type Demand<in out T> = {
+    demand: T
 }
 
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
