@@ -62,7 +62,6 @@ enum Gift {
 
 // Day 11 - type class instances
 type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}`
-const zz = [].push()
 
 // Day 12 - Starting to feel like 2023 :o
 type NaughtyOrNice<T> = T extends 'Yanni' | 'Petra' | 'Aagya' ? 'nice' : 'naughty'
