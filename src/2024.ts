@@ -80,6 +80,9 @@ type Demand<in out T> = {
     demand: T
 }
 
+// Day 14 - Generator
+type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
+
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
 type Omit<T, U> = T extends U ? never : T
