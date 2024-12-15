@@ -83,6 +83,12 @@ type Demand<in out T> = {
 // Day 14 - Generator
 type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
 
+// Day 15 - ???
+type CountD<S extends string, Count extends any[] = []> = S extends `-${infer R}`
+    ? CountD<R, ['+1', ...Count]> : Count['length']
+type GetRoute<T extends string> = T extends `${infer One}-${infer Dash}${infer R}`
+    ? [[One, CountD<Dash>], ...GetRoute<R>] : T extends `${infer First}` ? [[First, 0]] : []
+
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
 type Omit<T, U> = T extends U ? never : T
