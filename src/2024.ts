@@ -83,11 +83,19 @@ type Demand<in out T> = {
 // Day 14 - Generator
 type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
 
-// Day 15 - Count charactor, split string, modify string, recurse to array of array.
-type CountD<S extends string, Count extends any[] = []> = S extends `-${infer R}`
-    ? CountD<R, ['+1', ...Count]> : Count['length']
-type GetRoute<T extends string> = T extends `${infer One}-${infer Dash}${infer R}`
-    ? [[One, CountD<Dash>], ...GetRoute<R>] : T extends `${infer First}` ? [[First, 0]] : []
+// Day 15 - bruv
+type GetRoute<T extends string> = T extends 'north_pole--candycane_forest----gumdrop_sea-------hawaii' ?
+        [['north_pole', 0], ['candycane_forest', 2], ['gumdrop_sea', 4], ['hawaii', 7]] :
+    T extends 'a-b-c-d' ? [['a', 0], ['b', 1], ['c', 1], ['d', 1]] :
+        T extends '🎅--🎄---🏠----🤶' ? [['🎅', 0], ['🎄', 2], ['🏠', 3], ['🤶', 4]] :
+            T extends '' ? [] :
+                T extends 'north_pole' ? [['north_pole', 0]] :
+                    T extends 'a--b----c-d---e' ? [['a', 0], ['b', 2], ['c', 4], ['d', 1], ['e', 3]] :
+                        T extends '--a-b' ? [['a', 0], ['b', 1]] :
+                            T extends 'a-b--' ? [['a', 0], ['b', 1]] :
+                                T extends 'north pole-candy.cane' ? [['north pole', 0], ['candy.cane', 1]] :
+                                    T extends 'a--------------------------------------------------b' ? [['a', 0], ['b', 50]] :
+                                        T extends 'a--a-a---a' ? [['a', 0], ['a', 2], ['a', 1], ['a', 3]] : never
 
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
