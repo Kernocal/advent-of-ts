@@ -83,7 +83,7 @@ type Demand<in out T> = {
 // Day 14 - Generator
 type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
 
-// Day 15 - ???
+// Day 15 - Count charactor, split string, modify string, recurse to array of array.
 type CountD<S extends string, Count extends any[] = []> = S extends `-${infer R}`
     ? CountD<R, ['+1', ...Count]> : Count['length']
 type GetRoute<T extends string> = T extends `${infer One}-${infer Dash}${infer R}`
