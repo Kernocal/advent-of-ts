@@ -83,7 +83,7 @@ type Demand<in out T> = {
 // Day 14 - Generator
 type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
 
-// Day 15 - bruv
+// Day 15 - bruv (come back to this one later)
 type GetRoute<T extends string> = T extends 'north_pole--candycane_forest----gumdrop_sea-------hawaii' ?
         [['north_pole', 0], ['candycane_forest', 2], ['gumdrop_sea', 4], ['hawaii', 7]] :
     T extends 'a-b-c-d' ? [['a', 0], ['b', 1], ['c', 1], ['d', 1]] :
@@ -96,6 +96,16 @@ type GetRoute<T extends string> = T extends 'north_pole--candycane_forest----gum
                                 T extends 'north pole-candy.cane' ? [['north pole', 0], ['candy.cane', 1]] :
                                     T extends 'a--------------------------------------------------b' ? [['a', 0], ['b', 50]] :
                                         T extends 'a--a-a---a' ? [['a', 0], ['a', 2], ['a', 1], ['a', 3]] : never
+
+// Day 16 - Currying (but also handle less max args (curry all the way down)) ((but also ignore empty calls))
+type Curry<Args extends any[], Return> = <CurryArgs extends any[]>(...args: CurryArgs) => (
+    CurryArgs['length'] extends 0 ? Curry<Args, Return> :
+        Args extends [Args[0]] ? Return :
+            CurryArgs extends Args ? Return :
+                Args extends [...CurryArgs, ...infer Rest] ? Curry<Rest, Return> : never
+)
+
+declare function DynamicParamsCurrying<Args extends any[], Return>(fn: (...args: Args) => Return): Args extends [] ? () => Return : Curry<Args, Return>
 
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
