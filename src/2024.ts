@@ -84,7 +84,7 @@ type Demand<in out T> = {
 type PerfReview<T> = T extends AsyncGenerator<infer U> ? U : never
 
 // Day 15 - bruv (come back to this one later)
-type GetRoute<T extends string> = T extends 'north_pole--candycane_forest----gumdrop_sea-------hawaii' ?
+type GetRouteBrute<T extends string> = T extends 'north_pole--candycane_forest----gumdrop_sea-------hawaii' ?
         [['north_pole', 0], ['candycane_forest', 2], ['gumdrop_sea', 4], ['hawaii', 7]] :
     T extends 'a-b-c-d' ? [['a', 0], ['b', 1], ['c', 1], ['d', 1]] :
         T extends '🎅--🎄---🏠----🤶' ? [['🎅', 0], ['🎄', 2], ['🏠', 3], ['🤶', 4]] :
@@ -96,6 +96,13 @@ type GetRoute<T extends string> = T extends 'north_pole--candycane_forest----gum
                                 T extends 'north pole-candy.cane' ? [['north pole', 0], ['candy.cane', 1]] :
                                     T extends 'a--------------------------------------------------b' ? [['a', 0], ['b', 50]] :
                                         T extends 'a--a-a---a' ? [['a', 0], ['a', 2], ['a', 1], ['a', 3]] : never
+
+type GetRoute<T extends string, R extends any[] = [], Counter extends any[] = []> =
+  T extends '' ? R : T extends `${infer T1}-${infer T2}`
+      ? T1 extends ''
+          ? GetRoute<T2, R, R extends [] ? [] : [...Counter, '+1']>
+          : GetRoute<T2, [...R, [T1, Counter['length']]], ['+1']>
+      : [...R, [T, Counter['length']]]
 
 // Day 16 - Currying (but also handle less max args (curry all the way down)) ((but also ignore empty calls))
 type Curry<Args extends any[], Return> = <CurryArgs extends any[]>(...args: CurryArgs) => (
