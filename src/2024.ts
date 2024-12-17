@@ -123,7 +123,7 @@ type Pick<T, U extends keyof T> = {
 }
 
 // Day 17
-const compose = <A, B, C, D>(f: (x: A) => B, g: (x: B) => C, h: (x: C) => D): ((a: A) => D) => (a: A) => h(g(f(a)))
+const compose = <T, fReturn, gReturn, hReturn>(f: (x: T) => fReturn, g: (x: fReturn) => gReturn, h: (x: gReturn) => hReturn): ((a: T) => hReturn) => (a: T) => h(g(f(a)))
 
 const upperCase = <T extends string>(x: T): Uppercase<T> => x.toUpperCase() as Uppercase<T>
 const lowerCase = <T extends string>(x: T): Lowercase<T> => x.toLowerCase() as Lowercase<T>
