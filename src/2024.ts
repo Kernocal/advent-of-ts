@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions */
+/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions, style/comma-dangle */
 import { } from './santas-special-list'
 
 // Day 1 - Primitives
@@ -123,7 +123,7 @@ type Pick<T, U extends keyof T> = {
 }
 
 // Day 17
-const compose = <T, fReturn, gReturn, hReturn>(f: (x: T) => fReturn, g: (x: fReturn) => gReturn, h: (x: gReturn) => hReturn): ((a: T) => hReturn) => (a: T) => h(g(f(a)))
+const compose = <T, fReturn, gReturn, hReturn>(f: (x: T) => fReturn, g: (x: fReturn) => gReturn, h: (x: gReturn) => hReturn) => (a: T) => h(g(f(a)))
 
 const upperCase = <T extends string>(x: T): Uppercase<T> => x.toUpperCase() as Uppercase<T>
 const lowerCase = <T extends string>(x: T): Lowercase<T> => x.toLowerCase() as Lowercase<T>
@@ -132,7 +132,7 @@ const firstChar = <T extends string>(x: T): T extends `${infer F}${string}` ? F 
 const firstItem = <T extends readonly any[]>(x: T): T extends readonly [infer F, ...any[]] ? F : never => x[0] as any
 
 const makeTuple = <T extends string>(x: T) => [x] as const
-const makeBox = <T>(value: T) => ({ value } as const)
+const makeBox = <T,>(value: T) => ({ value } as const)
 
 // playground
 interface Person { name: string, age: number }
