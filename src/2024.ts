@@ -113,7 +113,7 @@ type Curry<Args extends any[], Return> = <CurryArgs extends any[]>(...args: Curr
 )
 
 declare function DynamicParamsCurrying<Args extends any[], Return>(fn: (...args: Args) => Return): Args extends [] ? () => Return : Curry<Args, Return>
-
+// https://tsplay.dev/m0D8om
 // ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
 // helpers
 type Omit<T, U> = T extends U ? never : T
@@ -121,6 +121,18 @@ type Push<T extends any[], U> = [...T, U]
 type Pick<T, U extends keyof T> = {
     [K in U]: T[K];
 }
+
+// Day 17
+const compose = <A, B, C, D>(f: (x: A) => B, g: (x: B) => C, h: (x: C) => D): ((a: A) => D) => (a: A) => h(g(f(a)))
+
+const upperCase = <T extends string>(x: T): Uppercase<T> => x.toUpperCase() as Uppercase<T>
+const lowerCase = <T extends string>(x: T): Lowercase<T> => x.toLowerCase() as Lowercase<T>
+
+const firstChar = <T extends string>(x: T): T extends `${infer F}${string}` ? F : never => x[0] as any
+const firstItem = <T extends readonly any[]>(x: T): T extends readonly [infer F, ...any[]] ? F : never => x[0] as any
+
+const makeTuple = <T extends string>(x: T) => [x] as const
+const makeBox = <T>(value: T) => ({ value } as const)
 
 // playground
 interface Person { name: string, age: number }
