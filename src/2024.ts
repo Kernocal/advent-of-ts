@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions, style/comma-dangle */
+/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions, style/comma-dangle, no-console */
 import { } from './santas-special-list'
 
 // Day 1 - Primitives
@@ -133,6 +133,15 @@ const firstItem = <T extends readonly any[]>(x: T): T extends readonly [infer F,
 
 const makeTuple = <T extends string>(x: T) => [x] as const
 const makeBox = <T,>(value: T) => ({ value } as const)
+
+// Day 18
+const colors = ['red' as const, 'yellow' as const, 'green' as const]
+type Color = (typeof colors)[number]
+
+const createStreetLight = <T extends Color>(colors: T[], defaultColor: T) => {
+    console.log(colors)
+    return defaultColor
+}
 
 // playground
 interface Person { name: string, age: number }
