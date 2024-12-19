@@ -98,11 +98,11 @@ type GetRouteBrute<T extends string> = T extends 'north_pole--candycane_forest--
                                         T extends 'a--a-a---a' ? [['a', 0], ['a', 2], ['a', 1], ['a', 3]] : never
 
 type GetRoute<T extends string, R extends any[] = [], Counter extends any[] = []> =
-  T extends '' ? R : T extends `${infer T1}-${infer T2}`
-      ? T1 extends ''
-          ? GetRoute<T2, R, R extends [] ? [] : [...Counter, '+1']>
-          : GetRoute<T2, [...R, [T1, Counter['length']]], ['+1']>
-      : [...R, [T, Counter['length']]]
+    T extends '' ? R : T extends `${infer T1}-${infer T2}`
+        ? T1 extends ''
+            ? GetRoute<T2, R, R extends [] ? [] : [...Counter, '+1']>
+            : GetRoute<T2, [...R, [T1, Counter['length']]], ['+1']>
+        : [...R, [T, Counter['length']]]
 
 // Day 16 - Currying (but also handle less max args (curry all the way down)) ((but also ignore empty calls))
 type Curry<Args extends any[], Return> = <CurryArgs extends any[]>(...args: CurryArgs) => (
@@ -113,14 +113,6 @@ type Curry<Args extends any[], Return> = <CurryArgs extends any[]>(...args: Curr
 )
 
 declare function DynamicParamsCurrying<Args extends any[], Return>(fn: (...args: Args) => Return): Args extends [] ? () => Return : Curry<Args, Return>
-// https://tsplay.dev/m0D8om
-// ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
-// helpers
-type Omit<T, U> = T extends U ? never : T
-type Push<T extends any[], U> = [...T, U]
-type Pick<T, U extends keyof T> = {
-    [K in U]: T[K];
-}
 
 // Day 17
 const compose = <T, fReturn, gReturn, hReturn>(f: (x: T) => fReturn, g: (x: fReturn) => gReturn, h: (x: gReturn) => hReturn) => (a: T) => h(g(f(a)))
@@ -143,9 +135,34 @@ const createStreetLight = <T extends Color>(colors: T[], defaultColor: T) => {
     return defaultColor
 }
 
+// Day 19 - kind of messy? but I like it.
+type ExcludeAll<T extends string, Remove extends string> =
+    T extends `${infer First}${Exclude<Remove, ''>}${infer Rest}` ? `${First}${ExcludeAll<Rest, Remove>}` : T
+
+type RemoveNewlines<T extends string> = ExcludeAll<ExcludeAll<ExcludeAll<ExcludeAll<T, '\n'>, '\t'>, '\r'>, ' '>
+
+type ParseLine<T extends string> =
+    T extends `${'let' | 'const' | 'var'}${infer Id}=${any}`
+        ? [{ id: Id, type: 'VariableDeclaration' }]
+        : T extends `${any}(${infer Argument})`
+            ? [{ argument: Argument, type: 'CallExpression' }]
+            : []
+
+type Parse<T extends string> =
+    T extends `${infer Line};${infer Rest}` ? [...ParseLine<RemoveNewlines<Line>>, ...Parse<Rest>] : ParseLine<RemoveNewlines<T>>
+
 // playground
 interface Person { name: string, age: number }
 
 type TransformedPerson = {
     [K in keyof Person as `new_${K}` | `updated_${K}` | `changed_${K}`]: Person[K];
+}
+
+// https://tsplay.dev/m0D8om
+// ||`type Excuse<T> = new (para: T) => `${string & keyof T}: ${string & T[keyof T]}``||
+// helpers
+type Omit<T, U> = T extends U ? never : T
+type Push<T extends any[], U> = [...T, U]
+type Pick<T, U extends keyof T> = {
+    [K in U]: T[K];
 }
