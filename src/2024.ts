@@ -139,17 +139,34 @@ const createStreetLight = <T extends Color>(colors: T[], defaultColor: T) => {
 type ExcludeAll<T extends string, Remove extends string> =
     T extends `${infer First}${Exclude<Remove, ''>}${infer Rest}` ? `${First}${ExcludeAll<Rest, Remove>}` : T
 
-type RemoveNewlines<T extends string> = ExcludeAll<ExcludeAll<ExcludeAll<ExcludeAll<T, '\n'>, '\t'>, '\r'>, ' '>
+type FixInput<T extends string> = ExcludeAll<ExcludeAll<ExcludeAll<ExcludeAll<T, '\n'>, '\t'>, '\r'>, ' '>
 
 type ParseLine<T extends string> =
     T extends `${'let' | 'const' | 'var'}${infer Id}=${any}`
-        ? [{ id: Id, type: 'VariableDeclaration' }]
-        : T extends `${any}(${infer Argument})`
-            ? [{ argument: Argument, type: 'CallExpression' }]
-            : []
+        ? [{ id: Id, type: 'VariableDeclaration' }] : T extends `${any}(${infer Argument})`
+                ? [{ argument: Argument, type: 'CallExpression' }]
+                : []
 
 type Parse<T extends string> =
-    T extends `${infer Line};${infer Rest}` ? [...ParseLine<RemoveNewlines<Line>>, ...Parse<Rest>] : ParseLine<RemoveNewlines<T>>
+    T extends `${infer Line};${infer Rest}`
+        ? [...ParseLine<FixInput<Line>>, ...Parse<Rest>] : ParseLine<FixInput<T>>
+
+// Day 20
+type Split<T extends string> =
+  T extends `${infer First};${infer Rest}` ? [First, ...Split<Rest>] : T extends '' ? [] : [T]
+
+type Declared<T extends string> =
+  T extends `${'let' | 'const' | 'var'}${infer Id}=${any}` ? [Id] : []
+
+type Used<T extends string> =
+  T extends `${infer Func}(${infer Arg})` ? [FixInput<Arg>] : []
+
+type ProcessLines<Lines extends string[], DeclaredAcc extends string[] = [], UsedAcc extends string[] = []> =
+  Lines extends [infer First extends string, ...infer Rest extends string[]]
+      ? ProcessLines<Rest, [...DeclaredAcc, ...Declared<FixInput<First>>], [...UsedAcc, ...Used<FixInput<First>>]>
+      : { declared: DeclaredAcc, used: UsedAcc }
+
+type AnalyzeScope<T extends string> = ProcessLines<Split<T>>
 
 // playground
 interface Person { name: string, age: number }
