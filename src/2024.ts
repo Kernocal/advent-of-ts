@@ -168,6 +168,17 @@ type ProcessLines<Lines extends string[], DeclaredAcc extends string[] = [], Use
 
 type AnalyzeScope<T extends string> = ProcessLines<Split<T>>
 
+// Day 21
+type FindUnused<Declared extends string[], Used extends string[]> =
+  Declared extends [infer First extends string, ...infer Rest extends string[]]
+      ? First extends Used[number]
+          ? FindUnused<Rest, Used> : [First, ...FindUnused<Rest, Used>] : []
+
+type Lint<T extends string> = {
+    scope: AnalyzeScope<T>
+    unused: FindUnused<AnalyzeScope<T>['declared'], AnalyzeScope<T>['used']>
+}
+
 // playground
 interface Person { name: string, age: number }
 
