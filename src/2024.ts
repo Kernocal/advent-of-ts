@@ -170,7 +170,7 @@ type AnalyzeScope<T extends string> = ProcessLines<Split<T>>
 
 // Day 21
 type FindUnused<Declared extends string[], Used extends string[]> =
-  Declared extends [infer First extends string, ...infer Rest extends string[]]
+  Declared extends [infer First, ...infer Rest extends string[]]
       ? First extends Used[number]
           ? FindUnused<Rest, Used> : [First, ...FindUnused<Rest, Used>] : []
 
