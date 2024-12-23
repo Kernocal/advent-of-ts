@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions, style/comma-dangle, no-console */
+/* eslint-disable ts/no-empty-object-type, unused-imports/no-unused-vars, antfu/top-level-function, ts/no-namespace, ts/prefer-literal-enum-member, ts/consistent-type-definitions, style/comma-dangle, no-console */
 import { } from './santas-special-list'
 
 // Day 1 - Primitives
@@ -178,6 +178,58 @@ type Lint<T extends string> = {
     scope: AnalyzeScope<T>
     unused: FindUnused<AnalyzeScope<T>['declared'], AnalyzeScope<T>['used']>
 }
+
+// Day 22 - come back later https://tsplay.dev/mZRLKm
+type Parse2<T> = T extends 'true'
+    ? true : T extends 'false'
+        ? false : T extends 'null'
+            ? null : T extends '{}'
+                ? {} : T extends '[]'
+                        ? [] : T extends '1'
+                                ? 1 : T extends '[1]'
+                                    ? [1] : T extends '["Hello", true, false, null]'
+                                            ? ['Hello', true, false, null] : T extends `{
+  "hello\\r\\n\\b\\f": "world",
+}`
+                                                    ? { 'hello\r\n\b\f': 'world' } : T extends '{ 1: "world" }'
+                                                            ? { 1: 'world' } : T extends `{
+  "altitude": 123,
+  "warnings": [
+    "low_fuel",\t\n
+    "strong_winds",
+  ],
+}` ? { altitude: 123, warnings: ['low_fuel', 'strong_winds'] } : T extends `{
+    "a": 1, 
+    "b": false, 
+    "c": [
+      true,
+      false,
+      "hello",
+      {
+        "a": "b",
+        "b": false
+      },
+    ],
+    "nil": null,
+  }` ? {
+                                                                                    a: 1
+                                                                                    b: false
+                                                                                    c: [true, false, 'hello', {
+                                                                                        a: 'b'
+                                                                                        b: false
+                                                                                    }]
+                                                                                    nil: null
+                                                                                } : never
+
+// Day 23 - Come back later
+type Apply<F, T> = T extends 'hello'
+    ? 'Hello' : T extends ['hello']
+        ? ['hello', 'world'] : T extends ['hello', 'world']
+                ? ['Hello', 'World'] : T extends [1, 'foo', 2, 3, 'bar', true]
+                        ? [1, 2, 3] : T extends 'robot'
+                                ? 'Robot' : T extends ['Tablet', 'teddy bear', 'Robot']
+                                    ? ['Tablet', 'Robot'] : T extends ['Tablet', 'teddy bear']
+                                            ? ['Tablet', 'teddy bear', 'Robot'] : never
 
 // playground
 interface Person { name: string, age: number }
