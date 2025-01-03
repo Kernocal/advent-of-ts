@@ -221,7 +221,7 @@ type Parse2<T> = T extends 'true'
                                                                                     nil: null
                                                                                 } : never
 
-// Day 23 - Come back later
+// Day 23 - Come back later 
 type Apply<F, T> = T extends 'hello'
     ? 'Hello' : T extends ['hello']
         ? ['hello', 'world'] : T extends ['hello', 'world']
